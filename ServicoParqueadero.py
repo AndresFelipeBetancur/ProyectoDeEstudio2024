@@ -63,14 +63,34 @@ APARTADO DE TARIFAS
         print(f"""El valor de la tarifa de automovil es: {valorTarifas[0]},
 El valor de la tarifa de motocicletas es: {valorTarifas[1]},
 El valor de la tarifa de bicicletas es {valorTarifas[2]}.""")
-        opcion = int(input("¿Desea regresar el sub modulo tarifas? 1=si 2=no"))
+        opcion = int(input("¿Desea regresar el sub modulo tarifas? 1=si 2=no "))
         if opcion == 1:
             return tarifas()
         elif opcion == 2: 
             return menuPrincipal()
         else:
             print("La opcion ingresada no es valida.")
-            
+    if opcion == 3:
+        print(""" MODIFICAR TARIFAS:
+1. Modificar Tarifa Automóvil
+2. Modificar Tarifa Motocicleta
+3. Modificar Tarifa Bicicleta
+4. Regresar al sub Menú Tarifas""")
+        opcion = int(input("Selecione una opción "))
+        if opcion == 1:
+            valorTarifas[0] = int(input("Ingrese el nuevo valor de la tarifa para automoviles "))
+            return tarifas()
+        elif opcion == 2:
+            valorTarifas[1] = int(input("Ingrese el nuevo valor de la tarifa para motocicletas "))
+            return tarifas()
+        elif opcion == 3:
+            valorTarifas[2] = int(input("Ingrese el nuevo valor de la tarifa para bicibletas "))
+            return tarifas()
+        elif opcion == 4:
+            return tarifas()
+        else:
+            print("La opción selecionada no es valida.")
+            return tarifas()
     elif opcion == 4:
         return menuPrincipal() 
     
