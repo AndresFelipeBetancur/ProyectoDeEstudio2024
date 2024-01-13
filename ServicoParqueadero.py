@@ -5,6 +5,8 @@ Aquí se va a escribir el codigo del programa.
 #LISTAS Y VARIABLES PARA EL PROGRAMA
 valorTarifas  = [0,0,0]
 vehiculosIngresados = []
+motosIngresadas = []
+bicicletasIngresadas = []
 #FUNCIONES DEL PROGRAMA 
 
 def menuPrincipal():
@@ -95,34 +97,53 @@ El valor de la tarifa de bicicletas es {valorTarifas[2]}.""")
             return tarifas()
     elif opcion == 4:
         return menuPrincipal() 
+    
 def ingresoVehiculos():
     opcion = input("Tipo de vehículo (a : automóvil, m: moto, b: bicicleta ): ") 
     if opcion == "a" or opcion == "A":
         tresLetras = input("Ingrese las 3 letras de su placa: ")
-        if len(tresLetras) < 3 or type(tresLetras) != str:
+
+        if len(tresLetras) < 3 or len(tresLetras)>3:
             print("Las tres letras de la placa ingresadas no son validas.")
             print("Verifique la longitud y tipo de los valores ingresados.")
             return ingresoVehiculos()
-        tresNumeros = int(input("Ingrese los 3 número de su placa: "))
-        if len(f"{tresNumeros}") < 3 or type(tresNumeros) != int:
+        try:
+            tresNumeros = int(input("Ingrese los 3 número de su placa: "))
+        except ValueError:
+            print("se deben de ingresar números")
+            return ingresoVehiculos()
+        if len(f"{tresNumeros}") < 3 or type(tresNumeros) != int or len(f"{tresNumeros}")>3:
             print("Los tres números de la placa ingresadas no son validas.")
             print("Verifique la longitud y tipo de los valores ingresados.")
             return ingresoVehiculos()
-        placa = f"tresLetras+{tresNumeros}"
+        placa = f"{tresLetras}+{tresNumeros}"
+        
+        for i in range(0,len(vehiculosIngresados)):
+            valor = vehiculosIngresados[i][0]
+            if valor==placa:
+                print("La placa ya esta registrada.")
+                return ingresoVehiculos()
+
         horaDeIngreso = int(input("Ingrese la hora de ingreso en formato hhmm (horas,minutos) "))
         if len(f"{horaDeIngreso}")>4:
             print("La hora ingresada no es valida.")
             return ingresoVehiculos()
+        
         nombreCliente = input("Ingrese el nombre del cliente: ")
+        
         if len(vehiculosIngresados)==0:
+            salida = False
             consecutivoFactura = 0
-            infoVehiculo = [placa,horaDeIngreso,nombreCliente,consecutivoFactura]
+            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
             vehiculosIngresados.append(infoVehiculo)
+            print("El vehiculo se ha ingresado correctamente.")
             return menuPrincipal()
         else:
+            salida = False
             consecutivoFactura = [-1][-1]+1
-            infoVehiculo = [placa,horaDeIngreso,nombreCliente,consecutivoFactura]
+            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
             vehiculosIngresados.append(infoVehiculo)
+            print("El vehiculo se ha ingresado correctamente.")
             return menuPrincipal()
             
 #APARTADO DE LLAMADA DE LA FUNCIÓN PRINCIPAL
