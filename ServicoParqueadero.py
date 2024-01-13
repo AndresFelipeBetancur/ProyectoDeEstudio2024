@@ -27,9 +27,10 @@ Menú Principal
     opcion = int(input("Selecione una opción "))
     if opcion == 1:
         return tarifas()
-    if opcion == 2:
+    elif opcion == 2:
         return ingresoVehiculos()
-        
+    elif opcion == 3:
+        return buscarVehiculo()
 
 def tarifas():
     print("""
@@ -140,17 +141,80 @@ def ingresoVehiculos():
             return menuPrincipal()
         else:
             salida = False
-            consecutivoFactura = [-1][-1]+1
+            consecutivoFactura = f"veh{vehiculosIngresados[-1][-1]+1}"
             infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
             vehiculosIngresados.append(infoVehiculo)
             print("El vehiculo se ha ingresado correctamente.")
             return menuPrincipal()
-            
+    elif opcion == "m" or opcion == "M":
+        placa = input("Ingrese la placa de la moto, (tres letras seguida de dos números, seguida de una letra): ")  
+        if len(placa)<6 or len(placa)>6:
+            print("La longitud de la placa no es valida.")
+            return ingresoVehiculos()
+        for i in range(0,len(motosIngresadas)):
+            valor = motosIngresadas[i][0]
+            if valor==placa:
+                print("La placa ya esta registrada.")
+                return ingresoVehiculos()
+        horaDeIngreso = int(input("Ingrese la hora de ingreso en formato hhmm (horas,minutos) "))
+        nombreCliente = input("Ingrese el nombre del cliente: ")
+        salida = False
+        if len(motosIngresadas) == 0:
+            consecutivoFactura = 0
+            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            motosIngresadas.append(infoMoto)
+            print("La moto se ha ingresado correctamente.")
+            print(f"El consecutivo es: {consecutivoFactura}")
+            return menuPrincipal() 
+                
+        else: 
+            consecutivoFactura = motosIngresadas[-1][-1]+1
+            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            motosIngresadas.append(infoMoto)
+            print("La moto se ha ingresado correctamente.")
+            print(f"El consecutivo es: {consecutivoFactura}")
+            return menuPrincipal()
+    elif opcion == "b" or opcion == "B":
+        if len(bicicletasIngresadas) == 0:
+            consecutivoBicicleta = 000000
+        else:
+            consecutivoBicicleta = bicicletasIngresadas[-1][0]+1
+        horaDeIngreso = int(input("Ingrese la hora de ingreso en formato hhmm (horas,minutos) "))
+        nombreCliente = input("Ingrese el nombre del cliente: ")
+        salida = False
+        if len(bicicletasIngresadas) == 0:
+            consecutivoFactura = 0
+            infoBici = [consecutivoBicicleta,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            bicicletasIngresadas.append(infoBici)
+            print("La bicicleta se ha ingresado correctamente.")
+            return menuPrincipal() 
+                
+        else: 
+            consecutivoFactura = bicicletasIngresadas[-1][-1]+1
+            infoBici= [consecutivoBicicleta,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            bicicletasIngresadas.append(infoBici)
+            print("La bicicleta se ha ingresado correctamente.")
+            return menuPrincipal()
+
+def buscarVehiculo():
+    print("""1. Buscar motos
+2. Buscar automóviles
+3. Buscar bicicletas
+4. Regresar al menú principal""")
+    opcion = input("Selecione una opción: ")
+    if opcion=="1":
+        placa = input("Ingrese la placa de la moto: ") 
+    elif opcion=="2":
+        placa = input("Ingrese la placa del automovil: ") 
+    elif opcion=="3":
+        placa = input("Ingrese el consecutivo de la bicicleta: ")
+    elif opcion=="4":
+        return menuPrincipal()
+    else:
+        print("La opción no esta disponible.") 
+        return menuPrincipal()
+        
+    
 #APARTADO DE LLAMADA DE LA FUNCIÓN PRINCIPAL
 menuPrincipal()
 
-"""
-for i in placas:
-                if placas[i] == placa:
-                    print("La placa ingresada corresponde a un vehiculo ya registrado.")
-                    return menuPrincipal()"""
