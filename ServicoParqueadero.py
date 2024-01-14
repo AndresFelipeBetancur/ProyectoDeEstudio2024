@@ -7,6 +7,7 @@ valorTarifas  = [0,0,0]
 vehiculosIngresados = []
 motosIngresadas = []
 bicicletasIngresadas = []
+consecutivoBicicleta = 000000
 #FUNCIONES DEL PROGRAMA 
 
 def menuPrincipal():
@@ -175,8 +176,8 @@ def ingresoVehiculos():
             print(f"El consecutivo es: {consecutivoFactura}")
             return menuPrincipal()
     elif opcion == "b" or opcion == "B":
-        if len(bicicletasIngresadas) == 0:
-            consecutivoBicicleta = 000000
+        if len(bicicletasIngresadas)<1:
+            consecutivoBicicleta = 111111 + 1
         else:
             consecutivoBicicleta = bicicletasIngresadas[-1][0]+1
         horaDeIngreso = int(input("Ingrese la hora de ingreso en formato hhmm (horas,minutos) "))
@@ -184,17 +185,20 @@ def ingresoVehiculos():
         salida = False
         if len(bicicletasIngresadas) == 0:
             consecutivoFactura = 0
-            infoBici = [consecutivoBicicleta,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoBici = [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,consecutivoFactura]
             bicicletasIngresadas.append(infoBici)
             print("La bicicleta se ha ingresado correctamente.")
+            print(f"Su consecutivo es {infoBici[0]}")
             return menuPrincipal() 
                 
         else: 
             consecutivoFactura = bicicletasIngresadas[-1][-1]+1
-            infoBici= [consecutivoBicicleta,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoBici= [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,consecutivoFactura]
             bicicletasIngresadas.append(infoBici)
             print("La bicicleta se ha ingresado correctamente.")
+            print(f"Su consecutivo es {infoBici[0]}")
             return menuPrincipal()
+
 
 def buscarVehiculo():
     print("""1. Buscar motos
@@ -227,8 +231,53 @@ Total: 1800""")
            
     elif opcion=="2":
         placa = input("Ingrese la placa del automovil: ") 
+        
+        for i in range(0,len(vehiculosIngresados)):
+            valor = vehiculosIngresados[i][0].index(placa)
+            if len(f"{valor}")>0:
+                
+                print(f"""Factura No: {vehiculosIngresados[i][-1]}
+Num Placa: {vehiculosIngresados[i][0]}
+Vehículo tipo: Moto
+Hora de ingreso: {vehiculosIngresados[i][1]}
+Hora de salida: 1235
+Nombre: {vehiculosIngresados[i][2]}
+Numero minutos : 60
+Total: 1800""")
+                opcion = input("¿Desea regresar? si=1, no=2 ")
+                if opcion == "1":
+                    return buscarVehiculo()
+                else:
+                    return menuPrincipal()
+            else:
+                print("la placa ingresada no esta registrada.")
+                return menuPrincipal()
+        
     elif opcion=="3":
-        placa = input("Ingrese el consecutivo de la bicicleta: ")
+        consecutivo = input("Ingrese el consecutivo de la bicicleta: ")
+        
+        for i in range(0,len(bicicletasIngresadas)):
+            valor = bicicletasIngresadas[i][0].index(f"{consecutivo}")
+            if len(f"{valor}")>0:
+                
+                print(f"""Factura No: {bicicletasIngresadas[i][-1]}
+Consecutivo bicibleta: {bicicletasIngresadas[i][0]}
+Vehículo tipo: bicicleta
+Hora de ingreso: {bicicletasIngresadas[i][1]}
+Hora de salida: 1235
+Nombre: {bicicletasIngresadas[i][2]}
+Numero minutos : 60
+Total: 1800""")
+                opcion = input("¿Desea regresar? si=1, no=2 ")
+                if opcion == "1":
+                    return buscarVehiculo()
+                else:
+                    return menuPrincipal()
+            else:
+                print("la placa ingresada no esta registrada.")
+                return menuPrincipal()
+        
+        
     elif opcion=="4":
         return menuPrincipal()
     else:
