@@ -204,6 +204,27 @@ def buscarVehiculo():
     opcion = input("Selecione una opción: ")
     if opcion=="1":
         placa = input("Ingrese la placa de la moto: ") 
+        for i in range(0,len(motosIngresadas)):
+            valor = motosIngresadas[i][0].index(placa)
+            if len(f"{valor}")>0:
+                #print(motosIngresadas[i])
+                print(f"""Factura No: {motosIngresadas[i][-1]}
+Num Placa: {motosIngresadas[i][0]}
+Vehículo tipo: Moto
+Hora de ingreso: {motosIngresadas[i][1]}
+Hora de salida: 1235
+Nombre: {motosIngresadas[i][2]}
+Numero minutos : 60
+Total: 1800""")
+                opcion = input("¿Desea regresar? si=1, no=2 ")
+                if opcion == "1":
+                    return buscarVehiculo()
+                else:
+                    return menuPrincipal()
+            else:
+                print("la placa ingresada no esta registrada.")
+                return menuPrincipal()
+           
     elif opcion=="2":
         placa = input("Ingrese la placa del automovil: ") 
     elif opcion=="3":
