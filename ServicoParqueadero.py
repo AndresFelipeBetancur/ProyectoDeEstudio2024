@@ -32,6 +32,8 @@ Menú Principal
         return ingresoVehiculos()
     elif opcion == 3:
         return buscarVehiculo()
+    elif opcion == 4:
+        return mostrarRegistros()
 
 def tarifas():
     print("""
@@ -118,7 +120,7 @@ def ingresoVehiculos():
             print("Los tres números de la placa ingresadas no son validas.")
             print("Verifique la longitud y tipo de los valores ingresados.")
             return ingresoVehiculos()
-        placa = f"{tresLetras}+{tresNumeros}"
+        placa = f"{tresLetras+ f'{tresNumeros}'}"
         
         for i in range(0,len(vehiculosIngresados)):
             valor = vehiculosIngresados[i][0]
@@ -284,6 +286,36 @@ Total: 1800""")
         print("La opción no esta disponible.") 
         return menuPrincipal()
         
+def mostrarRegistros():
+    print("""1. Mostrar todos los automóviles .
+2. Mostrar todas las motocicletas.
+3. Mostrar todas las bicicletas
+4. Regresar al menú principal.""")
+    opcion = input("Selecione una opción: ")
+    if opcion == "1":
+        if len(vehiculosIngresados)<1:
+            print("No se encontrarón registros.")
+            return mostrarRegistros()
+        print("FACTURA  PLACA   INGRESO   SALIDA   MINUTOS  TOTAL")
+        for i in range(0,len(vehiculosIngresados)):
+            
+            print(f"""{i}        {vehiculosIngresados[i][0]}  {vehiculosIngresados[i][1]}      1200     120      4800""")
+        
+        opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
+        if opcionSalida == "1":
+            mostrarRegistros()
+        else: 
+            menuPrincipal()
+            
+    elif opcion == "2":
+        print("m")
+    elif opcion == "3":
+        print("m")
+    elif opcion == "4":
+        return menuPrincipal()
+    else:
+        print("Opción no valida.")
+        return menuPrincipal()
     
 #APARTADO DE LLAMADA DE LA FUNCIÓN PRINCIPAL
 menuPrincipal()
