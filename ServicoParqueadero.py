@@ -34,6 +34,8 @@ Menú Principal
         return buscarVehiculo()
     elif opcion == 4:
         return mostrarRegistros()
+    elif opcion == 5:
+        return salidaVehiculos()
 
 def tarifas():
     print("""
@@ -308,15 +310,182 @@ def mostrarRegistros():
             menuPrincipal()
             
     elif opcion == "2":
-        print("m")
+        
+        if len(motosIngresadas)<1:
+            print("No se encontrarón registros.")
+            return mostrarRegistros()
+        print("FACTURA  PLACA   INGRESO   SALIDA   MINUTOS  TOTAL")
+        for i in range(0,len(motosIngresadas)):
+            
+            print(f"""{i}        {motosIngresadas[i][0]}  {motosIngresadas[i][1]}      1200     120      4800""")
+        
+        opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
+        if opcionSalida == "1":
+            mostrarRegistros()
+        else: 
+            menuPrincipal()
+        
     elif opcion == "3":
-        print("m")
+        if len(bicicletasIngresadas)<1:
+            print("No se encontrarón registros.")
+            return mostrarRegistros()
+        print("FACTURA  CONSECUTIVO  INGRESO   SALIDA  MINUTOS  TOTAL")
+        for i in range(0,len(bicicletasIngresadas)):
+            
+            print(f"""{i}        {bicicletasIngresadas[i][0]}     {bicicletasIngresadas[i][1]}        1200    120      4800""")
+        
+        opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
+        if opcionSalida == "1":
+            mostrarRegistros()
+        else: 
+            menuPrincipal()
     elif opcion == "4":
         return menuPrincipal()
     else:
         print("Opción no valida.")
         return menuPrincipal()
-    
+
+
+def salidaVehiculos():
+    tipoVehiculo = input("Ingrese el típo de vehículo: a=automovil, m=motocicleta, b=bicibleta: ") 
+    if tipoVehiculo == "a" or tipoVehiculo == "A":
+        placa = input("Ingrese la pláca del vehículo: ") 
+        for i in range(0,len(vehiculosIngresados)):
+            valor = vehiculosIngresados[i][0]
+            if valor == placa:
+                a=True
+            else:
+                print("El vehiculo no se encuentra registrado.")
+                menuPrincipal()
+            if a == True and vehiculosIngresados[i][3]==False:
+                horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
+                if horaSalida < vehiculosIngresados[i][1]:
+                    print("La hora de salida es menor a la hora de ingreso.")
+                    salidaVehiculos()
+                else: 
+                    vehiculosIngresados[i][3] = horaSalida
+                    horaEntrada = vehiculosIngresados[i][1]
+
+                    minutos = 0
+                    minutosI = 0
+                    while True:
+                        if horaEntrada >= horaSalida:
+                            break
+                        else:
+                            minutos += 1
+                            minutosI += 1
+                            # Verifica si han pasado 60 minutos
+                            if minutosI == 60:
+                                minutosI = 0
+                                horaEntrada += 100
+
+                    print(f"""Factura No: {vehiculosIngresados[i][4]}
+                                 
+Tipo de vehículo: automovil
+Placa: {vehiculosIngresados[i][0]}
+Hora de salida: {vehiculosIngresados[i][3]}
+Numero de minutos: {minutos}
+Total a pagar: {minutos*valorTarifas[0]}""")
+                    opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
+                    if opcion == "1":
+                        return salidaVehiculos()
+                    else:
+                        return menuPrincipal()
+            else:
+                print("El vehiculo no se encontró o ya salió del parqueadero.") 
+                return salidaVehiculos()       
+    elif tipoVehiculo=="m" or tipoVehiculo=="M":
+        placa = input("Ingrese la pláca del vehículo: ") 
+        for i in range(0,len(motosIngresadas)):
+            valor = motosIngresadas[i][0]
+            if valor == placa :
+                a=True
+            else:
+                print("El vehiculo no se encuentra registrado.")
+                menuPrincipal()
+            if a == True and motosIngresadas[i][3]==False:
+                horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
+                if horaSalida < motosIngresadas[i][1]:
+                    print("La hora de salida es menor a la hora de ingreso.")
+                    salidaVehiculos()
+                else: 
+                    motosIngresadas[i][3] = horaSalida
+                    horaEntrada = motosIngresadas[i][1]
+
+                    minutos = 0
+                    minutosI = 0
+                    while True:
+                        if horaEntrada >= horaSalida:
+                            break
+                        else:
+                            minutos += 1
+                            minutosI += 1
+                            # Verifica si han pasado 60 minutos
+                            if minutosI == 60:
+                                minutosI = 0
+                                horaEntrada += 100
+
+                    print(f"""Factura No: {motosIngresadas[i][4]}                             
+Tipo de vehículo: motocicleta
+Placa: {motosIngresadas[i][0]}
+Hora de salida: {motosIngresadas[i][3]}
+Numero de minutos: {minutos}
+Total a pagar: {minutos*valorTarifas[1]}""")
+                    opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
+                    if opcion == "1":
+                        return salidaVehiculos()
+                    else:
+                        return menuPrincipal()
+            else:
+                print("El vehiculo no se encontró o ya salió del parqueadero.") 
+                return salidaVehiculos()   
+            
+    elif tipoVehiculo=="b" or tipoVehiculo =="B":
+        valor = input("Ingrese el consecutivo de la bicicleta: ") 
+        for i in range(0,len(bicicletasIngresadas)):
+            consecutivo = bicicletasIngresadas[i][0]
+            if valor == consecutivo :
+                a=True
+            else:
+                print("El vehiculo no se encuentra registrado.")
+                menuPrincipal()
+            if a == True and bicicletasIngresadas[i][3]==False:
+                horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
+                if horaSalida < bicicletasIngresadas[i][1]:
+                    print("La hora de salida es menor a la hora de ingreso.")
+                    salidaVehiculos()
+                else: 
+                    bicicletasIngresadas[i][3] = horaSalida
+                    horaEntrada = bicicletasIngresadas[i][1]
+
+                    minutos = 0
+                    minutosI = 0
+                    while True:
+                        if horaEntrada >= horaSalida:
+                            break
+                        else:
+                            minutos += 1
+                            minutosI += 1
+                            # Verifica si han pasado 60 minutos
+                            if minutosI == 60:
+                                minutosI = 0
+                                horaEntrada += 100
+
+                    print(f"""Factura No: {bicicletasIngresadas[i][4]}                             
+Tipo de vehículo: bicicleta
+Placa: {bicicletasIngresadas[i][0]}
+Hora de salida: {bicicletasIngresadas[i][3]}
+Numero de minutos: {minutos}
+Total a pagar: {minutos*valorTarifas[2]}""")
+                    opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
+                    if opcion == "1":
+                        return salidaVehiculos()
+                    else:
+                        return menuPrincipal()
+            else:
+                print("El vehiculo no se encontró o ya salió del parqueadero.") 
+                return salidaVehiculos()   
+              
 #APARTADO DE LLAMADA DE LA FUNCIÓN PRINCIPAL
 menuPrincipal()
 
