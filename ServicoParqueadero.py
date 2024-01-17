@@ -36,7 +36,11 @@ Menú Principal
         return mostrarRegistros()
     elif opcion == 5:
         return salidaVehiculos()
-
+    elif opcion == 6:
+        return buscarFactura()
+    elif opcion == 7:
+        return cuadreCaja()
+    
 def tarifas():
     print("""
 APARTADO DE TARIFAS
@@ -138,16 +142,20 @@ def ingresoVehiculos():
         nombreCliente = input("Ingrese el nombre del cliente: ")
         
         if len(vehiculosIngresados)==0:
+            minutos = 0
+            total = 0
             salida = False
             consecutivoFactura = 0
-            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             vehiculosIngresados.append(infoVehiculo)
             print("El vehiculo se ha ingresado correctamente.")
             return menuPrincipal()
         else:
+            minutos = 0
+            total = 0
             salida = False
             consecutivoFactura = f"veh{vehiculosIngresados[-1][-1]+1}"
-            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoVehiculo = [placa,horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             vehiculosIngresados.append(infoVehiculo)
             print("El vehiculo se ha ingresado correctamente.")
             return menuPrincipal()
@@ -165,16 +173,20 @@ def ingresoVehiculos():
         nombreCliente = input("Ingrese el nombre del cliente: ")
         salida = False
         if len(motosIngresadas) == 0:
+            minutos = 0
+            total = 0
             consecutivoFactura = 0
-            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             motosIngresadas.append(infoMoto)
             print("La moto se ha ingresado correctamente.")
             print(f"El consecutivo es: {consecutivoFactura}")
             return menuPrincipal() 
                 
         else: 
+            minutos = 0
+            total = 0
             consecutivoFactura = motosIngresadas[-1][-1]+1
-            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoMoto = [placa,horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             motosIngresadas.append(infoMoto)
             print("La moto se ha ingresado correctamente.")
             print(f"El consecutivo es: {consecutivoFactura}")
@@ -188,16 +200,20 @@ def ingresoVehiculos():
         nombreCliente = input("Ingrese el nombre del cliente: ")
         salida = False
         if len(bicicletasIngresadas) == 0:
+            minutos = 0
+            total = 0
             consecutivoFactura = 0
-            infoBici = [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoBici = [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             bicicletasIngresadas.append(infoBici)
             print("La bicicleta se ha ingresado correctamente.")
             print(f"Su consecutivo es {infoBici[0]}")
             return menuPrincipal() 
                 
         else: 
+            minutos = 0
+            total = 0
             consecutivoFactura = bicicletasIngresadas[-1][-1]+1
-            infoBici= [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,consecutivoFactura]
+            infoBici= [f"{consecutivoBicicleta}",horaDeIngreso,nombreCliente,salida,minutos,total,False,consecutivoFactura]
             bicicletasIngresadas.append(infoBici)
             print("La bicicleta se ha ingresado correctamente.")
             print(f"Su consecutivo es {infoBici[0]}")
@@ -301,7 +317,7 @@ def mostrarRegistros():
         print("FACTURA  PLACA   INGRESO   SALIDA   MINUTOS  TOTAL")
         for i in range(0,len(vehiculosIngresados)):
             
-            print(f"""{i}        {vehiculosIngresados[i][0]}  {vehiculosIngresados[i][1]}      1200     120      4800""")
+            print(f"""{i}        {vehiculosIngresados[i][0]}  {vehiculosIngresados[i][1]}      {vehiculosIngresados[i][3]}     {vehiculosIngresados[i][4]}       {vehiculosIngresados[i][5]}""")
         
         opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
         if opcionSalida == "1":
@@ -317,7 +333,7 @@ def mostrarRegistros():
         print("FACTURA  PLACA   INGRESO   SALIDA   MINUTOS  TOTAL")
         for i in range(0,len(motosIngresadas)):
             
-            print(f"""{i}        {motosIngresadas[i][0]}  {motosIngresadas[i][1]}      1200     120      4800""")
+            print(f"""{i}        {motosIngresadas[i][0]}  {motosIngresadas[i][1]}      {motosIngresadas[i][3]}     {motosIngresadas[i][4]}       {motosIngresadas[i][5]}""")
         
         opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
         if opcionSalida == "1":
@@ -332,7 +348,7 @@ def mostrarRegistros():
         print("FACTURA  CONSECUTIVO  INGRESO   SALIDA  MINUTOS  TOTAL")
         for i in range(0,len(bicicletasIngresadas)):
             
-            print(f"""{i}        {bicicletasIngresadas[i][0]}     {bicicletasIngresadas[i][1]}        1200    120      4800""")
+            print(f"""{i}        {bicicletasIngresadas[i][0]}     {bicicletasIngresadas[i][1]}        {bicicletasIngresadas[i][3]}    {bicicletasIngresadas[i][4]}       {bicicletasIngresadas[i][5]}""")
         
         opcionSalida = input("¿Desea regresar al submenu mostrar registros? si=1, no=2.")
         if opcionSalida == "1":
@@ -357,7 +373,7 @@ def salidaVehiculos():
             else:
                 print("El vehiculo no se encuentra registrado.")
                 menuPrincipal()
-            if a == True and vehiculosIngresados[i][3]==False:
+            if a == True and vehiculosIngresados[i][4]==False:
                 horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
                 if horaSalida < vehiculosIngresados[i][1]:
                     print("La hora de salida es menor a la hora de ingreso.")
@@ -378,7 +394,7 @@ def salidaVehiculos():
                             if minutosI == 60:
                                 minutosI = 0
                                 horaEntrada += 100
-
+                    vehiculosIngresados[i][6] = True
                     print(f"""Factura No: {vehiculosIngresados[i][4]}
                                  
 Tipo de vehículo: automovil
@@ -386,6 +402,8 @@ Placa: {vehiculosIngresados[i][0]}
 Hora de salida: {vehiculosIngresados[i][3]}
 Numero de minutos: {minutos}
 Total a pagar: {minutos*valorTarifas[0]}""")
+                    vehiculosIngresados[i][4] = minutos
+                    vehiculosIngresados[i][5] = minutos*valorTarifas[0]
                     opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
                     if opcion == "1":
                         return salidaVehiculos()
@@ -403,7 +421,7 @@ Total a pagar: {minutos*valorTarifas[0]}""")
             else:
                 print("El vehiculo no se encuentra registrado.")
                 menuPrincipal()
-            if a == True and motosIngresadas[i][3]==False:
+            if a == True and motosIngresadas[i][4]==False:
                 horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
                 if horaSalida < motosIngresadas[i][1]:
                     print("La hora de salida es menor a la hora de ingreso.")
@@ -424,13 +442,15 @@ Total a pagar: {minutos*valorTarifas[0]}""")
                             if minutosI == 60:
                                 minutosI = 0
                                 horaEntrada += 100
-
+                    motosIngresadas[i][6] = True
                     print(f"""Factura No: {motosIngresadas[i][4]}                             
 Tipo de vehículo: motocicleta
 Placa: {motosIngresadas[i][0]}
 Hora de salida: {motosIngresadas[i][3]}
 Numero de minutos: {minutos}
 Total a pagar: {minutos*valorTarifas[1]}""")
+                    motosIngresadas[i][4] = minutos
+                    motosIngresadas[i][5] = minutos*valorTarifas[1]
                     opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
                     if opcion == "1":
                         return salidaVehiculos()
@@ -449,7 +469,7 @@ Total a pagar: {minutos*valorTarifas[1]}""")
             else:
                 print("El vehiculo no se encuentra registrado.")
                 menuPrincipal()
-            if a == True and bicicletasIngresadas[i][3]==False:
+            if a == True and bicicletasIngresadas[i][4]==False:
                 horaSalida = int(input("Ingrese la hora de salida del vehículo: "))
                 if horaSalida < bicicletasIngresadas[i][1]:
                     print("La hora de salida es menor a la hora de ingreso.")
@@ -470,13 +490,15 @@ Total a pagar: {minutos*valorTarifas[1]}""")
                             if minutosI == 60:
                                 minutosI = 0
                                 horaEntrada += 100
-
+                    bicicletasIngresadas[i][6] = True
                     print(f"""Factura No: {bicicletasIngresadas[i][4]}                             
 Tipo de vehículo: bicicleta
 Placa: {bicicletasIngresadas[i][0]}
 Hora de salida: {bicicletasIngresadas[i][3]}
 Numero de minutos: {minutos}
 Total a pagar: {minutos*valorTarifas[2]}""")
+                    bicicletasIngresadas[i][4] = minutos
+                    bicicletasIngresadas[i][5] = minutos*valorTarifas[2]
                     opcion = input("¿Desea regresar al menu salida vehiculos? si=1, no=2 ")
                     if opcion == "1":
                         return salidaVehiculos()
@@ -485,7 +507,111 @@ Total a pagar: {minutos*valorTarifas[2]}""")
             else:
                 print("El vehiculo no se encontró o ya salió del parqueadero.") 
                 return salidaVehiculos()   
-              
+    else:
+        print("Opción no valida.")
+        menuPrincipal()      
+
+def buscarFactura():
+    tipoVehiculo= input("Selecione el tipo de vehiculo de la factura: a=automovil, m=motocicleta, b=bicicleta.")
+    if tipoVehiculo == "a" or tipoVehiculo == "A":
+        a = False
+        numFactura = int(input("Ingrese el numero de la factura: "))
+        for i in range(0,len(vehiculosIngresados)):
+            valor = vehiculosIngresados[i][6]
+            if valor == numFactura:
+                a = True
+                if a == True:
+                    print(f"""Factura No: {vehiculosIngresados[i][6]}
+Num Placa: {vehiculosIngresados[i][0]}
+Vehículo tipo: Automovil
+Hora de ingreso: {vehiculosIngresados[i][1]}
+Hora de salida: {vehiculosIngresados[i][3]}
+Nombre: {vehiculosIngresados[i][2]}
+Numero minutos : {vehiculosIngresados[i][4]}
+Total: {vehiculosIngresados[i][5]}""")
+                    opcion = input("¿Desea regresar al submodulo buscar factura? 1=si, 2=no. ")
+                    if opcion == "1":
+                        return buscarFactura()
+                    else:
+                        return menuPrincipal()
+        if a != True:
+            print("No se encontro ningun registro con ese numero de factura.")
+            return menuPrincipal()
+        
+    elif tipoVehiculo == "m" or tipoVehiculo == "M":
+        a = False
+        numFactura = int(input("Ingrese el numero de la factura: "))
+        for i in range(0,len(motosIngresadas)):
+            valor = motosIngresadas[i][6]
+            if valor == numFactura:
+                a = True
+                if a == True:
+                    print(f"""Factura No: {motosIngresadas[i][6]}
+Num Placa: {motosIngresadas[i][0]}
+Vehículo tipo: Motocicleta
+Hora de ingreso: {motosIngresadas[i][1]}
+Hora de salida: {motosIngresadas[i][3]}
+Nombre: {motosIngresadas[i][2]}
+Numero minutos : {motosIngresadas[i][4]}
+Total: {motosIngresadas[i][5]}""")
+                    opcion = input("¿Desea regresar al submodulo buscar factura? 1=si, 2=no. ")
+                    if opcion == "1":
+                        return buscarFactura()
+                    else:
+                        return menuPrincipal()
+        if a != True:
+            print("No se encontro ningun registro con ese numero de factura.")
+            return menuPrincipal()
+        
+        
+    elif tipoVehiculo == "b" or tipoVehiculo == "B":
+        consecutivo = int(input("Ingrese el consecutivo de la bicicleta: "))
+        a = False
+        for i in range(0,len(bicicletasIngresadas)):
+            valor = bicicletasIngresadas[i][6]
+            if valor == consecutivoBicicleta:
+                a = True
+                if a == True:
+                    print(f"""Factura No: {bicicletasIngresadas[i][6]}
+Num Placa: {bicicletasIngresadas[i][0]}
+Vehículo tipo: Bicicleta
+Hora de ingreso: {bicicletasIngresadas[i][1]}
+Hora de salida: {bicicletasIngresadas[i][3]}
+Nombre: {bicicletasIngresadas[i][2]}
+Numero minutos : {bicicletasIngresadas[i][4]}
+Total: {bicicletasIngresadas[i][5]}""")
+                    opcion = input("¿Desea regresar al submodulo buscar factura? 1=si, 2=no. ")
+                    if opcion == "1":
+                        return buscarFactura()
+                    else:
+                        return menuPrincipal()
+        if a != True:
+            print("No se encontro ningun registro con ese numero de factura.")
+            return menuPrincipal()
+    else:
+        print("Opción no valida.")
+        return menuPrincipal()
+
+
+def cuadreCaja():
+    totalAutomoviles = 0
+    for i in range(0,len(vehiculosIngresados)):
+        if len(vehiculosIngresados)>0:
+            if vehiculosIngresados[i][6] == True:
+                totalAutomoviles = totalAutomoviles + vehiculosIngresados[i][5]
+    totalMotocicletas = 0
+    for i in range(0,len(motosIngresadas)):
+        if len(motosIngresadas)>0:
+            if motosIngresadas[i][6] == True:
+                totalMotocicletas += motosIngresadas[i][5]
+    totalBicicletas = 0
+    for i in range(0,len(bicicletasIngresadas)):
+        if len(bicicletasIngresadas)>0:
+            if bicicletasIngresadas[i][6] == True:
+                totalBicicletas += bicicletasIngresadas[i][5]
+    print(F"""GANANCIAS: AUTOMOVILES  MOTOCICLETAS  BICICLETAS
+           {totalAutomoviles}         {totalMotocicletas}          {totalBicicletas}""")
+    
 #APARTADO DE LLAMADA DE LA FUNCIÓN PRINCIPAL
 menuPrincipal()
 
